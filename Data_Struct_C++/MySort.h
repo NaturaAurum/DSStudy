@@ -13,20 +13,15 @@ namespace Mystd
 		template<class RandomAccessIter> inline
 			void Iterative( RandomAccessIter _First, RandomAccessIter _Last )
 		{
-				/*for ( RandomAccessIter i_Index_Iter = ( _First ); i_Index_Iter != _Last; i_Index_Iter++ )
-				{
-				std::rotate( std::upper_bound( _First, i_Index_Iter, *i_Index_Iter ), i_Index_Iter, std::next( i_Index_Iter ) );
-				}*/
-
 				for ( RandomAccessIter RIter_i = ( _First + 1 ); RIter_i != _Last; RIter_i++ )
 				{
 					RandomAccessIter RIter_j = RIter_i;
 
-					while ( RIter_j != _Last && *( RIter_j ) < *( RIter_j - 1 ) )
+					while ( RIter_j != _First && *( RIter_j ) < *( RIter_j - 1 ) )
 					{
-						RandomAccessIter Temp = RIter_j;
+						typename std::iterator_traits<RandomAccessIter>::value_type Temp = *RIter_j;
 						*( RIter_j ) = *( RIter_j - 1 );
-						*( RIter_j - 1 ) = *Temp;
+						*( RIter_j - 1 ) = Temp;
 						RIter_j--;
 					}
 				}
@@ -34,6 +29,8 @@ namespace Mystd
 		template <class RandomAccessIter> inline
 			void Recursive( RandomAccessIter _First, RandomAccessIter _Last )
 		{
+
+
 
 			}
 	}
