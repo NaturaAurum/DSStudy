@@ -6,6 +6,7 @@
 #include "DoubleLinkedList.h"
 #include <vector>
 #include <algorithm>
+#include <string>
 #include "MySort.h"
 #include "Stack.h"
 #include "Queue.h"
@@ -42,35 +43,23 @@ void Double_Linked_List( );
 void ArrayStackFunc( );
 void LinkedListStackFunc( );
 void D_ArrayStack( );
-void Vector_Sort_Insertion( );
+
+void Vector_Sort( );
+
 void ArrayQueueTest( );
 void ListQueueTest( );
 void ArrayBinaryTreeTest( );
 void ScoreManager( );
+void CalStack( );
 
+/////////////////////// MAIN ////////////////////////
 void main( )
 {
-	//Singly_Linked_List( );
-	//Double_Linked_List( );
+	Vector_Sort( );
 
-	/*ArrayStackFunc( );
-	std::cout << std::endl;
-	LinkedListStackFunc( );*/
-
-	//D_ArrayStack( );
-
-	Vector_Sort_Insertion( );
-
-	//ArrayQueueTest( );
-	//ListQueueTest( );
-
-	//ArrayBinaryTreeTest( );
-
-	//ScoreManager( );
-
-	//getchar( );
-
+	//CalStack( );
 }
+/////////////////////// MAIN ////////////////////////
 
 void Singly_Linked_List( )
 {
@@ -234,12 +223,14 @@ void D_ArrayStack( )
 	std::cout << m_B_ArrayStack->Pop( "N" ) << std::endl;
 }
 
-void Vector_Sort_Insertion( )
+void Vector_Sort( )
 {
 	const std::vector<int> original_Datas = { 23, 78, 45, 8, 32, 56 };
 	std::vector<int> Datas( original_Datas );
 
-	Mystd::Sort_Insertion::Iterative( Datas.begin( ), Datas.end( ) );
+	//Mystd::Sort_Insertion::Iterative( Datas.begin( ), Datas.end( ) );
+	//Mystd::Sort_Selection::Iterative( Datas.begin( ), Datas.end( ) );
+	Mystd::Sort_Bubble::Iterative( Datas.begin( ), Datas.end( ) );
 
 	for ( auto iter : Datas )
 	{
@@ -343,4 +334,12 @@ void ScoreManager( )
 				break;
 		}
 	}
+}
+
+void CalStack( )
+{
+	EquationStack::CEquationStack* EStack = new EquationStack::CEquationStack( );
+
+	EStack->Input( );
+	EStack->Print( );
 }

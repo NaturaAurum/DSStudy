@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <string>
 
 namespace nArrayStack
 {
@@ -137,7 +137,7 @@ namespace DualStack
 		{
 			DestroyStack( );
 		}
-		
+
 		void Push( Type Data )
 		{
 			if ( Data < 0 )
@@ -269,6 +269,156 @@ namespace nLinkedListStack
 				return -1;
 			}
 			return m_pTop->m_Data;
+		}
+	};
+}
+
+namespace EquationStack
+{
+	class CEquationStack
+	{
+	private:
+		std::string m_strEquation;
+		nLinkedListStack::ListStack<char>* m_OperStack;
+		nLinkedListStack::ListStack<char>* m_AriExpStack;
+		int m_iResult;
+		void Loop( )
+		{
+			int iPosition = 0;
+
+			while ( m_strEquation[ iPosition ] != '\0' )
+			{
+				if ( CheakOper( m_strEquation[ iPosition ] ) == 0 )
+				{
+					m_AriExpStack->Push( m_strEquation[ iPosition ] );
+				}
+				else if ( CheakOper( m_strEquation[ iPosition ] ) == 2 )
+				{
+					while ( true )
+					{
+						char Temp = m_OperStack->Pop( );
+						if ( Temp == '(' )
+							break;
+						m_AriExpStack->Push( Temp );
+					}
+				}
+				else
+				{
+					char Temp = NULL;
+					if ( m_OperStack->Peek() != -1 )
+					{
+						Temp = m_OperStack->Pop( );
+					}
+					if ( isPrior( Temp, m_strEquation[ iPosition ] ) == false && Temp != NULL )
+						m_AriExpStack->Push( Temp );
+					m_OperStack->Push( m_strEquation[ iPosition ] );
+				}
+				iPosition++;
+			}
+
+			while ( m_OperStack != nullptr )
+			{
+				m_AriExpStack->Push( m_OperStack->Pop( ) );
+			}
+			
+		}
+
+		int CheakOper( char chTarget )
+		{
+			switch ( chTarget )
+			{
+				case '+':
+				case '-':
+				case '/':
+				case '%':
+				case '*':
+				case '(':
+					return 1;
+				case ')':
+					return 2;
+				default:
+					return 0;
+			}
+		}
+
+		bool isPrior( char chOperInStack, char chOperInToken )
+		{
+			return ( GetPriority( chOperInStack, true ) > GetPriority( chOperInToken, false ) );
+		}
+
+		int GetPriority( char chOper, bool isInStack )
+		{
+			int iPriority = -1;
+
+			switch ( chOper )
+			{
+				case '(':
+					if ( isInStack )
+						iPriority = 3;
+					else
+						iPriority = 0;
+				case '*':
+				case '/':
+				case '%':
+					iPriority = 1;
+					break;
+				case '+':
+				case '-':
+					iPriority = 2;
+					break;
+				default:
+					break;
+			}
+
+			return iPriority;
+		}
+	public:
+		CEquationStack( )
+		{
+			m_OperStack = new nLinkedListStack::ListStack<char>( );
+			m_AriExpStack = new nLinkedListStack::ListStack<char>( );
+		}
+		~CEquationStack( )
+		{
+
+		}
+
+		void Input( )
+		{
+			std::cout << "½ÄÀÔ·Â" << std::endl;
+			std::cin >> m_strEquation;
+		}
+
+		void Print( )
+		{
+			this->Loop( );
+			char Oper;
+			char Oper1;
+			char Oper2;
+			
+			while ( m_AriExpStack != nullptr )
+			{
+				Oper = m_AriExpStack->Peek( );
+				if ( CheakOper( Oper ) == 0 )
+				{
+					Oper1 = m_AriExpStack->Pop( );
+					Oper2 = m_AriExpStack->Pop( );
+				}
+				else if ( CheakOper( Oper ) == 1 )
+				{
+					switch ( m_AriExpStack->Pop( ) )
+					{
+						case '+':
+							//m_iResult = ( ( Oper1 - '0' ) + ( Oper1 - '0' ) );
+						case '-':
+						case '/':
+						case '%':
+						case '*':
+						default:
+							break;
+					}
+				}
+			}
 		}
 	};
 }
