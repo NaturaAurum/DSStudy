@@ -51,13 +51,12 @@ void ListQueueTest( );
 void ArrayBinaryTreeTest( );
 void ScoreManager( );
 void CalStack( );
+void BSTreeFunc( );
 
 /////////////////////// MAIN ////////////////////////
 void main( )
 {
 	Vector_Sort( );
-
-	//CalStack( );
 }
 /////////////////////// MAIN ////////////////////////
 
@@ -342,4 +341,29 @@ void CalStack( )
 
 	EStack->Input( );
 	EStack->Print( );
+}
+
+void BSTreeFunc( )
+{
+	BinarySearchTree::CBinarySearchTree<int>* bsTree = new BinarySearchTree::CBinarySearchTree<int>( );
+	int Datas[ ] = { 6, 2, 0, 5, 4, 10, 19, 11 };
+	for ( int i = 0; i < 8; i++ )
+	{
+		bsTree->Insert( Datas[ i ] );
+	}
+
+	bsTree->Inorder( );
+	std::cout << std::endl;
+
+	bsTree->Remove( 11 );
+	bsTree->Inorder( );
+	std::cout << std::endl;
+	bsTree->Remove( 10 );
+	bsTree->Inorder( );
+	std::cout << std::endl;
+	bsTree->Remove( 2 );
+	bsTree->Inorder( );
+	std::cout << std::endl;
+
+	bsTree->~CBinarySearchTree( );
 }

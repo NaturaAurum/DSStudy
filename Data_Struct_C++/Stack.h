@@ -253,12 +253,20 @@ namespace nLinkedListStack
 
 		Type Pop( )
 		{
-			asNode<Type>* pTemp = m_pTop;
-			Type _Value = pTemp->m_Data;
-			m_pTop = pTemp->m_pNextNode;
+			Type _Value = NULL;
+			if ( !( m_pTop == nullptr ) )
+			{
+				asNode<Type>* pTemp = m_pTop;
+				_Value = pTemp->m_Data;
+				m_pTop = pTemp->m_pNextNode;
 
-			DestoryNode( pTemp );
+				DestoryNode( pTemp );
+			}
+			else
+			{
 
+			}
+			
 			return _Value;
 		}
 
@@ -297,7 +305,7 @@ namespace EquationStack
 					while ( true )
 					{
 						char Temp = m_OperStack->Pop( );
-						if ( Temp == '(' )
+						if ( Temp == '(' || Temp == NULL)
 							break;
 						m_AriExpStack->Push( Temp );
 					}
@@ -305,22 +313,28 @@ namespace EquationStack
 				else
 				{
 					char Temp = NULL;
-					if ( m_OperStack->Peek() != -1 )
+					if ( m_strEquation[ iPosition ] == '(' )
+					{
+						m_OperStack->Push( m_strEquation[ iPosition ] );
+						iPosition++;
+						continue;
+					}
+					if ( m_OperStack->Peek( ) != -1 )
 					{
 						Temp = m_OperStack->Pop( );
 					}
-					if ( isPrior( Temp, m_strEquation[ iPosition ] ) == false && Temp != NULL )
+					if ( isPrior( Temp, m_strEquation[ iPosition ] ) == false && Temp != NULL && Temp != '(' )
 						m_AriExpStack->Push( Temp );
 					m_OperStack->Push( m_strEquation[ iPosition ] );
 				}
 				iPosition++;
 			}
 
-			while ( m_OperStack != nullptr )
+			char Temp;
+			while ( ( Temp = m_OperStack->Pop( ) ) != NULL )
 			{
-				m_AriExpStack->Push( m_OperStack->Pop( ) );
+				m_AriExpStack->Push( Temp );
 			}
-			
 		}
 
 		int CheakOper( char chTarget )
@@ -357,6 +371,7 @@ namespace EquationStack
 						iPriority = 3;
 					else
 						iPriority = 0;
+					break;
 				case '*':
 				case '/':
 				case '%':
@@ -395,7 +410,7 @@ namespace EquationStack
 			char Oper;
 			char Oper1;
 			char Oper2;
-			
+
 			while ( m_AriExpStack != nullptr )
 			{
 				Oper = m_AriExpStack->Peek( );
