@@ -283,7 +283,7 @@ namespace BinarySearchTree
 		}
 		CBinarySearchTree<Type>( Type Item )
 		{
-			this->CreateNode( Item );
+			this->CreateTree( Item );
 		}
 
 		~CBinarySearchTree( )
@@ -437,6 +437,109 @@ namespace BinarySearchTree
 			std::cout << pNode->m_Item << " ";
 
 			Inorder( pNode->m_pRight );
+		}
+	};
+}
+namespace HeapTree
+{
+	template<class Type> class htNode
+	{
+	private:
+		Type m_TypeData;
+	public:
+		void SetData( Type Item )
+		{
+			m_TypeData = Item;
+		}
+		Type GetData( )
+		{
+			return m_TypeData;
+		}
+	};
+
+	template<class Type> class CHeapTree
+	{
+	private:
+		int m_iCapacity;
+		int m_iCurrentPosition;
+		htNode<Type>* m_pHtNodes;
+	public:
+		CHeapTree<Type>( )
+		{
+
+		}
+		CHeapTree<Type>( int iCapacity )
+		{
+			this->CreateHTree( iCapacity );
+		}
+		~CHeapTree<Type>( )
+		{
+			Release( );
+		}
+
+		void CreateHTree( int iCapacity )
+		{
+			m_iCapacity = iCapacity;
+			m_iCurrentPosition = 0;
+			m_pHtNodes = ( htNode<Type>* )malloc( sizeof( htNode<Type> ) * m_iCapacity );
+		}
+
+		void Release( )
+		{
+			free( m_pHtNodes );
+		}
+
+		void Insert( Type Item )
+		{
+			int iCurrent = this->m_iCurrentPosition;
+			int iParent = this->GetParent( m_iCurrentPosition );
+			
+			if ( m_iCurrentPosition == m_iCapacity )
+			{
+				m_iCapacity *= 2;
+				m_pHtNodes = ( htNode<Type>* ) realloc( m_pHtNodes, sizeof( htNode<Type> ) * m_iCapacity );
+			}
+
+			m_pHtNodes[ iCurrent ].SetData( Item );
+
+			while ( iCurrent > 0 && m_pHtNodes[ iCurrent ].GetData( ) > m_pHtNodes[ iParent ].GetData( ) )
+			{
+				SwapNodes( iCurrent, iParent );
+				iCurrent = iParent;
+				iParent = GetParent( iCurrent );
+			}
+
+			m_iCurrentPosition++;
+		}
+		void SwapNodes( int Index1, int Index2 )
+		{
+			int iCopySize = sizeof( htNode<Type> );
+			htNode<Type>* pTemp = ( htNode<Type>* )malloc( iCopySize );
+
+			memcpy( pTemp, &m_pHtNodes[ Index1 ], iCopySize );
+			memcpy( &m_pHtNodes[ Index1 ], &m_pHtNodes[ Index2 ], iCopySize );
+			memcpy( &m_pHtNodes[ Index2 ], pTemp, iCopySize );
+
+			free( pTemp );
+		}
+
+		void Print( )
+		{
+			for ( int i = 0; i < m_iCurrentPosition; i++ )
+			{
+				std::cout << m_pHtNodes[ i ].GetData( ) << " ";
+			}
+			std::cout << "\n";
+		}
+	private:
+		int GetParent( int Index )
+		{
+			return ( int )( ( Index - 1 ) / 2 );
+		}
+
+		int GetLeftChild( int Index )
+		{
+			return ( int )( ( 2 * Index ) + 1 );
 		}
 	};
 }

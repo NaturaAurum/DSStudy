@@ -11,6 +11,7 @@
 #include "Stack.h"
 #include "Queue.h"
 #include "Tree.h"
+#include "Devide_and_Qonquer.h"
 class CPerson
 {
 public:
@@ -52,6 +53,8 @@ void ArrayBinaryTreeTest( );
 void ScoreManager( );
 void CalStack( );
 void BSTreeFunc( );
+void HeapTreeFunc( );
+void DAQFunc( );
 
 /////////////////////// MAIN ////////////////////////
 void main( )
@@ -210,7 +213,7 @@ void D_ArrayStack( )
 
 	DualStack::ArrayStack<int>* m_B_ArrayStack = new DualStack::ArrayStack<int>( 10 );
 
-	int Data[] = { 2, 4, -3, -5, 3, 10, -16, 9, 29, 30 };
+	int Data[ ] = { 2, 4, -3, -5, 3, 10, -16, 9, 29, 30 };
 
 	for ( int i = 0; i < 10; i++ )
 	{
@@ -225,13 +228,17 @@ void D_ArrayStack( )
 void Vector_Sort( )
 {
 	const std::vector<int> original_Datas = { 23, 78, 45, 8, 32, 56 };
+	const std::vector<int> original_Datas2 = { 20, 18, 50, 40, 9, 19, 5, 25 };
 	std::vector<int> Datas( original_Datas );
+	std::vector<int> Datas2( original_Datas2 );
 
 	//Mystd::Sort_Insertion::Iterative( Datas.begin( ), Datas.end( ) );
 	//Mystd::Sort_Selection::Iterative( Datas.begin( ), Datas.end( ) );
-	Mystd::Sort_Bubble::Iterative( Datas.begin( ), Datas.end( ) );
+	//Mystd::Sort_Bubble::Iterative( Datas.begin( ), Datas.end( ) );
+	//Mystd::Sort_Quick::Recursive( Datas2.begin( ), Datas2.end( ) );
+	Mystd::Sort_Merge::Recursive_MergeSort( Datas2.begin( ), Datas2.end( ) );
 
-	for ( auto iter : Datas )
+	for ( auto iter : Datas2 )
 	{
 		std::cout << ( iter ) << std::endl;
 	}
@@ -366,4 +373,32 @@ void BSTreeFunc( )
 	std::cout << std::endl;
 
 	bsTree->~CBinarySearchTree( );
+}
+
+void HeapTreeFunc( )
+{
+	int Datas[ ] = { 6,5,3,1,8,7,2,4 };
+	HeapTree::CHeapTree<int>* HTree = new HeapTree::CHeapTree<int>( 8 );
+
+	for ( int i = 0; i < 8; i++ )
+	{
+		HTree->Insert( Datas[ i ] );
+	}
+
+	HTree->Print( );
+}
+
+void DAQFunc( )
+{
+	std::vector<int>* Datas = new std::vector<int>( );
+
+	for ( int i = 1; i <= 100; i++ )
+	{
+		Datas->push_back( i );
+	}
+
+	BinarySearch::Iterative( Datas->begin( ), Datas->end( ), 77 );
+	BinarySearch::Recursive( Datas->begin( ), Datas->end( ), 77 );
+
+
 }
