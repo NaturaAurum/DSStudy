@@ -220,3 +220,4 @@ public:
 		return pTail->m_Data;
 	}
 };
+

@@ -2,10 +2,10 @@
 #include <time.h>
 namespace Mystd
 {
-	template<typename T> inline
-		void Swap( T& tr1, T& tr2 )
+	template<typename Type> inline
+		void MySwap( Type& tr1, Type& tr2 )
 	{
-		T Temp( tr1 );
+		Type Temp( tr1 );
 		tr1 = tr2;
 		tr2 = Temp;
 	}
@@ -28,9 +28,7 @@ namespace Mystd
 
 				while ( RIter_j != First && *( RIter_j ) < *( RIter_j - 1 ) )
 				{
-					typename std::iterator_traits<RandomAccessIter>::value_type Temp = *RIter_j;
-					*( RIter_j ) = *( RIter_j - 1 );
-					*( RIter_j - 1 ) = Temp;
+					MySwap( *( RIter_j ), *( RIter_j - 1 ) );
 					RIter_j--;
 				}
 			}
@@ -38,7 +36,18 @@ namespace Mystd
 		template <class RandomAccessIter> inline
 			void Recursive( RandomAccessIter First, RandomAccessIter Last )
 		{
+				// 23, 78, 45, 8, 32, 56
+				if ( First == Last )
+					return;
+				Recursive( First, --Last );
+				RandomAccessIter RIter_i = Last;
+				RandomAccessIter RIter_j = RIter_i;
 
+				while ( RIter_j != First && *( RIter_j ) < *( RIter_j - 1 ) )
+				{
+					MySwap( *( RIter_j ), *( RIter_j - 1 ) );
+					RIter_j--;
+				}
 		}
 	}
 
@@ -60,13 +69,27 @@ namespace Mystd
 						MinIter = RIter_j;
 					}
 				}
-				Swap( *( RIter_i ), *( MinIter ) );
+				MySwap( *( RIter_i ), *( MinIter ) );
 			}
 		}
 		template<class RandomAccessIter> inline
 			void Recursive( RandomAccessIter First, RandomAccessIter Last )
 		{
-
+				//RandomAccessIter RIter_i;
+				if ( First == Last - 1 )
+					return;
+				RandomAccessIter RIter_j;
+				RandomAccessIter MinIter;
+				MinIter = First;
+				for ( RIter_j = ( First + 1 ); RIter_j != Last; RIter_j++ )
+				{
+					if ( *( RIter_j ) < *( MinIter ) )
+					{
+						MinIter = RIter_j;
+					}
+				}
+				MySwap( *( First ), *( MinIter ) );
+				Recursive( ++First, Last );
 		}
 	}
 
@@ -81,7 +104,7 @@ namespace Mystd
 				{
 					if ( *( RIter_i ) < *( RIter_j ) )
 					{
-						Swap( *( RIter_i ), *( RIter_j ) );
+						MySwap( *( RIter_i ), *( RIter_j ) );
 					}
 				}
 			}
@@ -89,7 +112,16 @@ namespace Mystd
 		template<class RandomAccessIter> inline
 			void Recursive( RandomAccessIter First, RandomAccessIter Last )
 		{
-
+				if ( First == Last )
+					return;
+				Recursive( First, --Last );
+				for ( RandomAccessIter RIter_j = First; RIter_j < Last; RIter_j++ )
+				{
+					if ( *( Last ) < *( RIter_j ) )
+					{
+						MySwap( *( Last ), *( RIter_j ) );
+					}
+				}
 		}
 	}
 
@@ -110,18 +142,18 @@ namespace Mystd
 			int iPivotIndex = rand( ) % iSize + 0;
 			typename std::iterator_traits<RandomAccessIter>::value_type PivotValue = *( First + iPivotIndex );
 			if ( iPivotIndex != 0 )
-				Swap( *( First + iPivotIndex ), *( First ) );
+				MySwap( *( First + iPivotIndex ), *( First ) );
 			int i = 1;
 			for ( int j = 1; j < iSize; j++ )
 			{
 				if ( *( First + j ) < PivotValue )
 				{
-					Swap( *( First + j ), *( First + i ) );
+					MySwap( *( First + j ), *( First + i ) );
 					i++;
 				}
 			}
 
-			Swap( *First, *( First + i - 1 ) );
+			MySwap( *First, *( First + i - 1 ) );
 
 			Recursive( First, First + i - 1 );
 			Recursive( First + i, Last );
@@ -157,8 +189,8 @@ namespace Mystd
 				if ( *( Mid ) < *( First ) )
 				{
 					typename std::iterator_traits<RandomAccessIter>::value_type _Value;
-					Swap( _Value, *( First ) );
-					Swap( *( First ), *( Mid ) );
+					MySwap( _Value, *( First ) );
+					MySwap( *( First ), *( Mid ) );
 					Recursive_Insert( Mid, Last, _Value );
 				}
 				++First;
@@ -170,10 +202,10 @@ namespace Mystd
 		{
 			while ( ( First + 1 ) != Last && *( First + 1 ) < TypeValue )
 			{
-				Swap( *( First ), *( First + 1 ) );
+				MySwap( *( First ), *( First + 1 ) );
 				++First;
 			}
-			Swap( *( First ), TypeValue );
+			MySwap( *( First ), TypeValue );
 		}
 	}
 }

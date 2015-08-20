@@ -228,17 +228,20 @@ void D_ArrayStack( )
 void Vector_Sort( )
 {
 	const std::vector<int> original_Datas = { 23, 78, 45, 8, 32, 56 };
-	const std::vector<int> original_Datas2 = { 20, 18, 50, 40, 9, 19, 5, 25 };
+	//const std::vector<int> original_Datas2 = { 20, 18, 50, 40, 9, 19, 5, 25 };
 	std::vector<int> Datas( original_Datas );
-	std::vector<int> Datas2( original_Datas2 );
+	//std::vector<int> Datas2( original_Datas2 );
 
 	//Mystd::Sort_Insertion::Iterative( Datas.begin( ), Datas.end( ) );
+	//Mystd::Sort_Insertion::Recursive( Datas.begin( ), Datas.end( ) );
 	//Mystd::Sort_Selection::Iterative( Datas.begin( ), Datas.end( ) );
+	//Mystd::Sort_Selection::Recursive( Datas.begin( ), Datas.end( ) );
 	//Mystd::Sort_Bubble::Iterative( Datas.begin( ), Datas.end( ) );
+	//Mystd::Sort_Bubble::Recursive( Datas.begin( ), Datas.end( ) );
 	//Mystd::Sort_Quick::Recursive( Datas2.begin( ), Datas2.end( ) );
-	Mystd::Sort_Merge::Recursive_MergeSort( Datas2.begin( ), Datas2.end( ) );
+	//Mystd::Sort_Merge::Recursive_MergeSort( Datas2.begin( ), Datas2.end( ) );
 
-	for ( auto iter : Datas2 )
+	for ( auto iter : Datas )
 	{
 		std::cout << ( iter ) << std::endl;
 	}
